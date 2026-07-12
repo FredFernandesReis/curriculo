@@ -3,6 +3,51 @@
 
 {% block title %}Criar Currículo - Etapa {{ etapa }}{% endblock %}
 
+{% block extra_css %}
+<style>
+/* Foto 3x4 sempre pequenininha no formulário (não depende de cache do CSS) */
+.foto-upload-box {
+  max-width: 260px;
+  margin: 0 auto;
+  padding: 12px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+  text-align: center;
+  overflow: hidden;
+}
+.foto-upload-box img,
+#fotoPreview {
+  width: 72px !important;
+  height: 96px !important;
+  max-width: 72px !important;
+  max-height: 96px !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  border-radius: 8px !important;
+  display: block !important;
+  margin: 0 auto 8px !important;
+  border: 1px solid #e2e8f0;
+}
+.foto-placeholder {
+  width: 72px;
+  height: 96px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2f7;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 1.8rem;
+}
+.foto-upload-box input[type="file"] {
+  font-size: 0.8rem;
+  max-width: 100%;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <section class="py-5">
     <div class="container">
@@ -78,15 +123,15 @@
                             <label class="form-label fw-semibold">Foto 3x4 (opcional)</label>
                             <div class="foto-upload-box text-center">
                                 {% if cliente.foto %}
-                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2" width="96" height="128" style="width:96px;height:128px;object-fit:cover;border-radius:8px;">
+                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2" width="72" height="96">
                                 {% else %}
-                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none" width="96" height="128" style="width:96px;height:128px;object-fit:cover;border-radius:8px;">
+                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none" width="72" height="96">
                                 <div id="fotoPlaceholder" class="foto-placeholder mb-2">
                                     <i class="bi bi-person-bounding-box"></i>
                                 </div>
                                 {% endif %}
-                                {{ form.foto }}
-                                <div class="form-text">Retrato pequeno (3x4). Aparece no currículo.</div>
+                                <div class="mt-1">{{ form.foto }}</div>
+                                <div class="form-text">Só uma miniaturazinha aqui. No currículo fica no topo.</div>
                             </div>
                         </div>
                     </div>

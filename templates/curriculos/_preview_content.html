@@ -36,11 +36,11 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if cliente.foto %}
-                <div class="cv-classic-photo">
-                    <img src="{{ cliente.foto.url }}" alt="Foto de {{ cliente.nome_completo }}">
-                </div>
-                {% endif %}
+            {% if cliente.foto %}
+            <div class="cv-classic-photo" style="width:92px;height:92px;border-radius:50%;overflow:hidden;flex-shrink:0;border:3px solid rgba(255,255,255,0.85);">
+                <img src="{{ cliente.foto.url }}" alt="Foto de {{ cliente.nome_completo }}" width="92" height="92" style="width:92px!important;height:92px!important;max-width:92px!important;max-height:92px!important;object-fit:cover;object-position:center top;display:block;">
+            </div>
+            {% endif %}
             </div>
         </header>
 
