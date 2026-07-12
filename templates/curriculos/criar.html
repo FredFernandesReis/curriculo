@@ -5,45 +5,52 @@
 
 {% block extra_css %}
 <style>
-/* Foto 3x4 sempre pequenininha no formulário (não depende de cache do CSS) */
-.foto-upload-box {
-  max-width: 260px;
-  margin: 0 auto;
-  padding: 12px;
-  border: 1px dashed #cbd5e1;
-  border-radius: 12px;
-  background: #f8fafc;
-  text-align: center;
-  overflow: hidden;
+.foto-thumb-wrap{
+  width:72px !important;
+  height:96px !important;
+  max-width:72px !important;
+  max-height:96px !important;
+  overflow:hidden !important;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+  background:#f1f5f9;
+  flex:0 0 72px;
+  position:relative;
 }
-.foto-upload-box img,
-#fotoPreview {
-  width: 72px !important;
-  height: 96px !important;
-  max-width: 72px !important;
-  max-height: 96px !important;
-  object-fit: cover !important;
-  object-position: center top !important;
-  border-radius: 8px !important;
-  display: block !important;
-  margin: 0 auto 8px !important;
-  border: 1px solid #e2e8f0;
+.foto-thumb-wrap img{
+  width:72px !important;
+  height:96px !important;
+  max-width:72px !important;
+  max-height:96px !important;
+  object-fit:cover !important;
+  object-position:center top !important;
+  display:block !important;
 }
-.foto-placeholder {
-  width: 72px;
-  height: 96px;
-  margin: 0 auto 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #eef2f7;
-  border-radius: 8px;
-  color: #94a3b8;
-  font-size: 1.8rem;
+.foto-thumb-wrap .foto-placeholder{
+  width:72px;
+  height:96px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#94a3b8;
+  font-size:1.6rem;
+  margin:0;
 }
-.foto-upload-box input[type="file"] {
-  font-size: 0.8rem;
-  max-width: 100%;
+.foto-upload-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  max-width:100%;
+}
+.foto-upload-row .foto-file-input{
+  flex:1 1 180px;
+  min-width:0;
+  max-width:100%;
+}
+.foto-upload-row input[type=file]{
+  max-width:100%;
+  font-size:14px;
 }
 </style>
 {% endblock %}
@@ -87,51 +94,50 @@
                 <form id="form-etapa" data-etapa="1" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row g-3">
-                        <div class="col-12 col-md-8">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Nome completo *</label>
-                                    {{ form.nome_completo }}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">E-mail *</label>
-                                    {{ form.email }}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Telefone *</label>
-                                    {{ form.telefone }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-semibold">Estado civil</label>
-                                    {{ form.estado_civil }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-semibold">Cidade *</label>
-                                    {{ form.cidade }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-semibold">Bairro</label>
-                                    {{ form.bairro }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-semibold">Ano de nascimento</label>
-                                    {{ form.ano_nascimento }}
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Nome completo *</label>
+                            {{ form.nome_completo }}
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">E-mail *</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Telefone *</label>
+                            {{ form.telefone }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Estado civil</label>
+                            {{ form.estado_civil }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Cidade *</label>
+                            {{ form.cidade }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Bairro</label>
+                            {{ form.bairro }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Ano de nascimento</label>
+                            {{ form.ano_nascimento }}
+                        </div>
+                        <div class="col-12">
                             <label class="form-label fw-semibold">Foto 3x4 (opcional)</label>
-                            <div class="foto-upload-box text-center">
-                                {% if cliente.foto %}
-                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2" width="72" height="96">
-                                {% else %}
-                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none" width="72" height="96">
-                                <div id="fotoPlaceholder" class="foto-placeholder mb-2">
-                                    <i class="bi bi-person-bounding-box"></i>
+                            <div class="foto-upload-row">
+                                <div class="foto-thumb-wrap" style="width:72px;height:96px;overflow:hidden;flex:0 0 72px;">
+                                    {% if cliente.foto %}
+                                    <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" width="72" height="96" style="width:72px;height:96px;object-fit:cover;">
+                                    <div id="fotoPlaceholder" class="foto-placeholder d-none"><i class="bi bi-person-bounding-box"></i></div>
+                                    {% else %}
+                                    <img src="" alt="" id="fotoPreview" class="d-none" width="72" height="96" style="width:72px;height:96px;object-fit:cover;">
+                                    <div id="fotoPlaceholder" class="foto-placeholder"><i class="bi bi-person-bounding-box"></i></div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
-                                <div class="mt-1">{{ form.foto }}</div>
-                                <div class="form-text">Só uma miniaturazinha aqui. No currículo fica no topo.</div>
+                                <div class="foto-file-input">
+                                    {{ form.foto }}
+                                    <div class="form-text">Miniatura ao lado. No currículo fica no topo.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
