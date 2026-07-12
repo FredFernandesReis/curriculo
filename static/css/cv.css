@@ -100,8 +100,8 @@
 
 .cv-classic-photo {
     flex-shrink: 0;
-    width: 108px;
-    height: 108px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.2);
@@ -256,6 +256,47 @@
     line-height: 1.25;
 }
 
+/* Upload foto 3x4 no formulário */
+.foto-upload-box {
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 1rem 0.75rem;
+    background: #f8fafc;
+}
+
+.foto-preview {
+    width: 96px;
+    height: 128px;
+    max-width: 96px;
+    max-height: 128px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.foto-placeholder {
+    width: 96px;
+    height: 128px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2f7;
+    color: #94a3b8;
+    font-size: 2.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.foto-upload-box input[type="file"] {
+    font-size: 0.85rem;
+    max-width: 100%;
+}
+
 @media (max-width: 767.98px) {
     .cv-classic-banner {
         padding: 1.15rem 1.1rem;
@@ -270,8 +311,8 @@
     }
 
     .cv-classic-photo {
-        width: 84px;
-        height: 84px;
+        width: 72px;
+        height: 72px;
     }
 
     .preview-watermark span {

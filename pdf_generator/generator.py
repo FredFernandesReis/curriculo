@@ -257,7 +257,7 @@ def gerar_pdf_curriculo(curriculo):
             if os.path.isfile(foto_path):
                 tmp_foto = _foto_arredondada(foto_path)
                 src = tmp_foto or foto_path
-                foto_flowable = Image(src, width=2.7 * cm, height=2.7 * cm)
+                foto_flowable = Image(src, width=2.3 * cm, height=2.3 * cm)
                 foto_flowable.hAlign = 'RIGHT'
         except (ValueError, OSError):
             foto_flowable = None
