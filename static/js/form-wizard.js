@@ -15,21 +15,18 @@ document.addEventListener('DOMContentLoaded', function() {
             field.addEventListener('change', () => salvarRascunho(formEtapa));
         });
 
-        // Pré-visualização da foto 3x4 (sempre pequena)
+        // Prévia da foto: background numa caixa 72x96 (nunca <img> em tamanho real)
         const fotoInput = formEtapa.querySelector('input[name="foto"]');
         if (fotoInput) {
             fotoInput.addEventListener('change', function () {
                 const file = this.files && this.files[0];
-                const preview = document.getElementById('fotoPreview');
+                const box = document.getElementById('fotoPreviewBox');
                 const placeholder = document.getElementById('fotoPlaceholder');
-                if (!file || !preview) return;
+                if (!file || !box) return;
                 const url = URL.createObjectURL(file);
-                preview.src = url;
-                preview.classList.remove('d-none');
-                preview.style.cssText = 'width:72px;height:96px;max-width:72px;max-height:96px;object-fit:cover;display:block;';
-                preview.setAttribute('width', '72');
-                preview.setAttribute('height', '96');
-                if (placeholder) placeholder.classList.add('d-none');
+                box.style.backgroundImage = `url("${url}")`;
+                box.classList.add('has-photo');
+                if (placeholder) placeholder.style.display = 'none';
             });
         }
         // Destaca tema selecionado
