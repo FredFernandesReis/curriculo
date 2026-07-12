@@ -26,14 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const url = URL.createObjectURL(file);
                 preview.src = url;
                 preview.classList.remove('d-none');
-                preview.style.width = '72px';
-                preview.style.height = '96px';
-                preview.style.maxWidth = '72px';
-                preview.style.maxHeight = '96px';
-                preview.style.objectFit = 'cover';
-                preview.style.borderRadius = '8px';
-                preview.style.display = 'block';
-                preview.style.margin = '0 auto 8px';
+                preview.style.cssText = 'width:72px;height:96px;max-width:72px;max-height:96px;object-fit:cover;display:block;';
                 preview.setAttribute('width', '72');
                 preview.setAttribute('height', '96');
                 if (placeholder) placeholder.classList.add('d-none');

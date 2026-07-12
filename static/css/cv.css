@@ -257,46 +257,42 @@
 }
 
 /* Upload foto 3x4 — tamanho fixo (não usa a imagem em tamanho real) */
-.foto-upload-box {
-    border: 1px dashed #cbd5e1 !important;
-    border-radius: 12px;
-    padding: 1rem 0.75rem;
-    background: #f8fafc;
-    max-width: 280px;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
+.foto-thumb-wrap {
+    width: 72px !important;
+    height: 96px !important;
+    max-width: 72px !important;
+    max-height: 96px !important;
+    overflow: hidden !important;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    flex: 0 0 72px;
 }
 
-.foto-upload-box img,
-.foto-upload-box .foto-preview,
+.foto-thumb-wrap img,
+.foto-thumb-wrap #fotoPreview,
 img.foto-preview,
 #fotoPreview {
-    width: 96px !important;
-    height: 128px !important;
-    max-width: 96px !important;
-    max-height: 128px !important;
+    width: 72px !important;
+    height: 96px !important;
+    max-width: 72px !important;
+    max-height: 96px !important;
     object-fit: cover !important;
     object-position: center top !important;
     display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
 }
 
+.foto-thumb-wrap .foto-placeholder,
 .foto-placeholder {
-    width: 96px !important;
-    height: 128px !important;
-    margin: 0 auto;
+    width: 72px !important;
+    height: 96px !important;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #eef2f7;
     color: #94a3b8;
-    font-size: 2.2rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    font-size: 1.6rem;
 }
 
 .foto-upload-box input[type="file"] {

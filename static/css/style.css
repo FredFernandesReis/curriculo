@@ -1243,19 +1243,19 @@ button.bottom-nav-item {
         padding-bottom: 1.5rem !important;
     }
 
-    .foto-upload-box {
-        margin-top: 0.5rem;
-        max-width: 280px;
-        overflow: hidden;
+    .foto-thumb-wrap {
+        width: 72px !important;
+        height: 96px !important;
+        overflow: hidden !important;
     }
 
-    .foto-upload-box img,
+    .foto-thumb-wrap img,
     #fotoPreview,
     img.foto-preview {
-        width: 96px !important;
-        height: 128px !important;
-        max-width: 96px !important;
-        max-height: 128px !important;
+        width: 72px !important;
+        height: 96px !important;
+        max-width: 72px !important;
+        max-height: 96px !important;
         object-fit: cover !important;
     }
 
