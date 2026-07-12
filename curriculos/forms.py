@@ -33,9 +33,10 @@ class DadosPessoaisForm(forms.ModelForm):
                 'class': 'form-control', 'placeholder': '1990',
                 'min': '1940', 'max': '2010',
             }),
-            'foto': forms.ClearableFileInput(attrs={
-                'class': 'form-control',
+            'foto': forms.FileInput(attrs={
+                'class': 'form-control form-control-sm',
                 'accept': 'image/*',
+                'id': 'id_foto',
             }),
         }
 

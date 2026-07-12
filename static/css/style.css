@@ -1245,6 +1245,18 @@ button.bottom-nav-item {
 
     .foto-upload-box {
         margin-top: 0.5rem;
+        max-width: 280px;
+        overflow: hidden;
+    }
+
+    .foto-upload-box img,
+    #fotoPreview,
+    img.foto-preview {
+        width: 96px !important;
+        height: 128px !important;
+        max-width: 96px !important;
+        max-height: 128px !important;
+        object-fit: cover !important;
     }
 
     .finalizado-actions .btn,

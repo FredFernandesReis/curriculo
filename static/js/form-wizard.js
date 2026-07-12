@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             field.addEventListener('change', () => salvarRascunho(formEtapa));
         });
 
-        // Pré-visualização da foto 3x4
+        // Pré-visualização da foto 3x4 (sempre pequena)
         const fotoInput = formEtapa.querySelector('input[name="foto"]');
         if (fotoInput) {
             fotoInput.addEventListener('change', function () {
@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const url = URL.createObjectURL(file);
                 preview.src = url;
                 preview.classList.remove('d-none');
+                preview.style.width = '96px';
+                preview.style.height = '128px';
+                preview.style.objectFit = 'cover';
+                preview.style.borderRadius = '8px';
+                preview.style.display = 'block';
+                preview.style.margin = '0 auto';
                 if (placeholder) placeholder.classList.add('d-none');
             });
         }

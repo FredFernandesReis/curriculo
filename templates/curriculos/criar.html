@@ -78,15 +78,15 @@
                             <label class="form-label fw-semibold">Foto 3x4 (opcional)</label>
                             <div class="foto-upload-box text-center">
                                 {% if cliente.foto %}
-                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2">
+                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2" width="96" height="128" style="width:96px;height:128px;object-fit:cover;border-radius:8px;">
                                 {% else %}
-                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none">
+                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none" width="96" height="128" style="width:96px;height:128px;object-fit:cover;border-radius:8px;">
                                 <div id="fotoPlaceholder" class="foto-placeholder mb-2">
                                     <i class="bi bi-person-bounding-box"></i>
                                 </div>
                                 {% endif %}
                                 {{ form.foto }}
-                                <div class="form-text">Retrato, fundo claro. Aparece no currículo.</div>
+                                <div class="form-text">Retrato pequeno (3x4). Aparece no currículo.</div>
                             </div>
                         </div>
                     </div>
