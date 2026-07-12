@@ -1,0 +1,130 @@
+{% load curriculo_extras %}
+{% with cores=curriculo.cores_tema %}
+<div class="preview-container cv-tema-{{ curriculo.tema|default:'azul' }}">
+    {% if protegido %}
+    <div class="preview-watermark">
+        <span>PRÉVIA - AGUARDANDO PAGAMENTO</span>
+    </div>
+    <div class="preview-overlay"></div>
+    {% endif %}
+
+    <article class="cv-classic {% if protegido %}preview-content blurred{% endif %}">
+        <header class="cv-classic-banner" style="--cv-primary: {{ cores.primary }}; --cv-accent: {{ cores.accent }}; --cv-light: {{ cores.light }};">
+            <div class="cv-classic-banner-inner">
+                <div class="cv-classic-header-text">
+                    <h1 class="cv-classic-name">{{ cliente.nome_completo }}</h1>
+                    <div class="cv-classic-meta">
+                        {% if cliente.estado_civil or cliente.ano_nascimento %}
+                        <p>
+                            {% if cliente.estado_civil %}{{ cliente.get_estado_civil_display }}{% endif %}{% if cliente.estado_civil and cliente.ano_nascimento %}, {% endif %}{% if cliente.ano_nascimento %}{{ cliente.ano_nascimento|idade_anos }} anos{% endif %}
+                        </p>
+                        {% endif %}
+                        {% if cliente.bairro or cliente.cidade %}
+                        <p>{% if cliente.bairro %}{{ cliente.bairro }}{% endif %}{% if cliente.bairro and cliente.cidade %} – {% endif %}{% if cliente.cidade %}{{ cliente.cidade }}{% endif %}</p>
+                        {% endif %}
+                        {% if cliente.telefone %}
+                        <p>Telefone: <span class="sensitive">{{ cliente.telefone }}</span></p>
+                        {% endif %}
+                        {% if cliente.email %}
+                        <p>E-mail: <span class="sensitive">{{ cliente.email }}</span></p>
+                        {% endif %}
+                        {% if curriculo.cnh != 'nao_possui' %}
+                        <p>CNH: {{ curriculo.get_cnh_display }}</p>
+                        {% endif %}
+                        {% if curriculo.veiculo_proprio %}
+                        <p>Veículo próprio: Sim</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if cliente.foto %}
+                <div class="cv-classic-photo">
+                    <img src="{{ cliente.foto.url }}" alt="Foto de {{ cliente.nome_completo }}">
+                </div>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="cv-classic-body">
+            {% if curriculo.objetivo_profissional %}
+            <section class="cv-classic-section">
+                <h2>Objetivo Profissional</h2>
+                <p class="cv-classic-text">{{ curriculo.objetivo_profissional|linebreaksbr }}</p>
+            </section>
+            {% endif %}
+
+            {% if curriculo.sobre_mim %}
+            <section class="cv-classic-section">
+                <h2>Sobre Mim</h2>
+                <p class="cv-classic-text">{{ curriculo.sobre_mim|linebreaksbr }}</p>
+            </section>
+            {% endif %}
+
+            {% if curriculo.escolaridade %}
+            <section class="cv-classic-section">
+                <h2>Formação Acadêmica</h2>
+                <p class="cv-classic-entry">
+                    {% if curriculo.curso_escolaridade %}
+                        {{ curriculo.curso_escolaridade }}{% if curriculo.ano_conclusao_escolaridade %} – Conclusão em {{ curriculo.ano_conclusao_escolaridade }}{% endif %}
+                    {% else %}
+                        {{ curriculo.get_escolaridade_display }}{% if curriculo.ano_conclusao_escolaridade %} – Conclusão em {{ curriculo.ano_conclusao_escolaridade }}{% endif %}
+                    {% endif %}
+                </p>
+                {% if curriculo.instituicao_escolaridade %}
+                <p class="cv-classic-sub">{{ curriculo.instituicao_escolaridade }}</p>
+                {% endif %}
+            </section>
+            {% endif %}
+
+            {% if curriculo.sem_experiencia or curriculo.experiencias.exists %}
+            <section class="cv-classic-section">
+                <h2>Experiência Profissional</h2>
+                {% if curriculo.sem_experiencia and not curriculo.experiencias.exists %}
+                <p class="cv-classic-muted">Busca primeira oportunidade no mercado de trabalho.</p>
+                {% else %}
+                {% for exp in curriculo.experiencias.all %}
+                <div class="cv-classic-job">
+                    <p class="cv-classic-job-title">
+                        {{ exp.empresa }} – {{ exp.cargo }}{% if exp.periodo %} | {{ exp.periodo }}{% endif %}
+                    </p>
+                    {% if exp.descricao %}
+                    <ul class="cv-classic-bullets">
+                        {% for item in exp.descricao|split_bullets %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="cv-classic-muted">Nenhuma experiência adicionada.</p>
+                {% endfor %}
+                {% endif %}
+            </section>
+            {% endif %}
+
+            {% if curriculo.habilidades %}
+            <section class="cv-classic-section">
+                <h2>Habilidades</h2>
+                <ul class="cv-classic-bullets">
+                    {% for item in curriculo.habilidades|split_bullets %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if not curriculo.sem_cursos and curriculo.cursos.all %}
+            <section class="cv-classic-section">
+                <h2>Cursos e Capacitações</h2>
+                <ul class="cv-classic-bullets">
+                    {% for curso in curriculo.cursos.all %}
+                    <li>
+                        {{ curso.nome }}{% if curso.instituicao %} – {{ curso.instituicao }}{% endif %}{% if curso.carga_horaria or curso.ano %} ({{ curso.carga_horaria }}{% if curso.carga_horaria and curso.ano %}, {% endif %}{{ curso.ano }}){% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </article>
+</div>
+{% endwith %}

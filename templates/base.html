@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>{% block title %}Currículo PRO{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/cv.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}has-mobile-nav{% endblock %}">
+    {% if vendedor %}
+        {% url 'pagina_vendedor' vendedor.slug as home_url %}
+    {% elif vendedor_sessao %}
+        {% url 'pagina_vendedor' vendedor_sessao.slug as home_url %}
+    {% else %}
+        {% url 'core:home' as home_url %}
+    {% endif %}
+
+    {% block navbar %}
+    <header class="site-header fixed-top">
+        <nav class="navbar navbar-light bg-white">
+            <div class="container d-flex align-items-center justify-content-between">
+                <a class="navbar-brand fw-bold text-primary text-truncate me-2" href="{{ home_url }}">
+                    <i class="bi bi-file-earmark-person-fill flex-shrink-0"></i>
+                    <span class="brand-text text-truncate">{% if vendedor %}{{ vendedor.nome_publico }}{% elif vendedor_sessao %}{{ vendedor_sessao.nome_publico }}{% else %}Currículo PRO{% endif %}</span>
+                </a>
+
+                <div class="d-none d-lg-flex align-items-center gap-1 flex-shrink-0">
+                    <a class="nav-link-desktop" href="{{ home_url }}#como-funciona">Como Funciona</a>
+                    <a class="nav-link-desktop" href="{{ home_url }}#vantagens">Vantagens</a>
+                    <a class="nav-link-desktop" href="{{ home_url }}#faq">FAQ</a>
+                    <a href="{% url 'curriculos:criar' %}" class="btn btn-primary btn-sm ms-2 px-4">
+                        Criar Meu Currículo
+                    </a>
+                </div>
+
+                <button class="btn btn-mobile-menu d-lg-none flex-shrink-0" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                        aria-controls="mobileMenu" aria-label="Abrir menu">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="offcanvas offcanvas-end mobile-offcanvas" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header">
+            <div class="pe-2 overflow-hidden">
+                <h5 class="offcanvas-title fw-bold text-primary mb-0 text-truncate" id="mobileMenuLabel">
+                    <i class="bi bi-file-earmark-person-fill me-1"></i>
+                    {% if vendedor %}{{ vendedor.nome_publico }}{% elif vendedor_sessao %}{{ vendedor_sessao.nome_publico }}{% else %}Currículo PRO{% endif %}
+                </h5>
+                <small class="text-muted">Menu de navegação</small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <nav class="mobile-nav-list flex-grow-1" aria-label="Menu principal">
+                <a href="{{ home_url }}" class="mobile-nav-item js-menu-link">
+                    <span class="mobile-nav-icon"><i class="bi bi-house-door"></i></span>
+                    <span class="mobile-nav-text">
+                        <strong>Início</strong>
+                        <small>Página principal</small>
+                    </span>
+                    <i class="bi bi-chevron-right mobile-nav-arrow"></i>
+                </a>
+                <a href="{{ home_url }}#como-funciona" class="mobile-nav-item js-menu-link">
+                    <span class="mobile-nav-icon"><i class="bi bi-signpost-split"></i></span>
+                    <span class="mobile-nav-text">
+                        <strong>Como Funciona</strong>
+                        <small>Passo a passo do serviço</small>
+                    </span>
+                    <i class="bi bi-chevron-right mobile-nav-arrow"></i>
+                </a>
+                <a href="{{ home_url }}#vantagens" class="mobile-nav-item js-menu-link">
+                    <span class="mobile-nav-icon"><i class="bi bi-stars"></i></span>
+                    <span class="mobile-nav-text">
+                        <strong>Vantagens</strong>
+                        <small>Por que nos escolher</small>
+                    </span>
+                    <i class="bi bi-chevron-right mobile-nav-arrow"></i>
+                </a>
+                <a href="{{ home_url }}#avaliacoes" class="mobile-nav-item js-menu-link">
+                    <span class="mobile-nav-icon"><i class="bi bi-chat-heart"></i></span>
+                    <span class="mobile-nav-text">
+                        <strong>Avaliações</strong>
+                        <small>Depoimentos de clientes</small>
+                    </span>
+                    <i class="bi bi-chevron-right mobile-nav-arrow"></i>
+                </a>
+                <a href="{{ home_url }}#faq" class="mobile-nav-item js-menu-link">
+                    <span class="mobile-nav-icon"><i class="bi bi-question-circle"></i></span>
+                    <span class="mobile-nav-text">
+                        <strong>Perguntas Frequentes</strong>
+                        <small>Tire suas dúvidas</small>
+                    </span>
+                    <i class="bi bi-chevron-right mobile-nav-arrow"></i>
+                </a>
+            </nav>
+
+            <div class="mobile-menu-cta mt-auto">
+                <a href="{% url 'curriculos:criar' %}" class="btn btn-primary btn-lg w-100 mb-2 js-menu-link">
+                    <i class="bi bi-pencil-square me-2"></i>Criar Meu Currículo
+                </a>
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" class="btn btn-outline-success w-100" target="_blank" rel="noopener">
+                    <i class="bi bi-whatsapp me-2"></i>Falar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="mobile-bottom-nav d-lg-none" aria-label="Navegação rápida">
+        <a href="{{ home_url }}" class="bottom-nav-item {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'pagina_vendedor' %}active{% endif %}" data-nav="home">
+            <i class="bi bi-house-door"></i>
+            <span>Início</span>
+        </a>
+        <a href="{{ home_url }}#como-funciona" class="bottom-nav-item js-hash-nav" data-nav="como">
+            <i class="bi bi-signpost-split"></i>
+            <span>Como</span>
+        </a>
+        <a href="{% url 'curriculos:criar' %}" class="bottom-nav-item bottom-nav-cta {% if request.resolver_match.app_name == 'curriculos' %}active{% endif %}">
+            <i class="bi bi-plus-lg"></i>
+            <span>Criar</span>
+        </a>
+        <a href="{{ home_url }}#faq" class="bottom-nav-item js-hash-nav" data-nav="faq">
+            <i class="bi bi-question-circle"></i>
+            <span>FAQ</span>
+        </a>
+        <button type="button" class="bottom-nav-item"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-label="Abrir menu">
+            <i class="bi bi-grid"></i>
+            <span>Menu</span>
+        </button>
+    </nav>
+    {% endblock %}
+
+    <main class="site-main">
+        {% if messages %}
+        <div class="container mt-2 pt-2">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block footer %}
+    <footer class="site-footer bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">
+                        <i class="bi bi-file-earmark-person-fill me-2"></i>
+                        {% if vendedor %}{{ vendedor.nome_publico }}{% elif vendedor_sessao %}{{ vendedor_sessao.nome_publico }}{% else %}Currículo PRO{% endif %}
+                    </h5>
+                    <p class="text-muted">Currículos profissionais que abrem portas para novas oportunidades.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold">Links Rápidos</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ home_url }}#como-funciona" class="text-muted text-decoration-none">Como Funciona</a></li>
+                        <li><a href="{{ home_url }}#faq" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a href="{% url 'curriculos:criar' %}" class="text-muted text-decoration-none">Criar Currículo</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold">Contato</h6>
+                    <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" class="text-muted text-decoration-none" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp me-2"></i>{{ WHATSAPP_DISPLAY }}
+                    </a>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <p class="text-muted mb-0 small">&copy; 2026 Currículo PRO. Todos os direitos reservados.</p>
+                <a href="{% url 'accounts:login' %}" class="text-muted text-decoration-none small opacity-50">
+                    Área do parceiro
+                </a>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

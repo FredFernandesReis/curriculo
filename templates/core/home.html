@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if vendedor %}{{ vendedor.nome_publico }}{% else %}Currículo PRO{% endif %} - Currículos Profissionais{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2">
+                    <i class="bi bi-star-fill me-1"></i> Currículos Profissionais
+                </span>
+                <h1 class="display-4 fw-bold mb-4">
+                    Destaque-se no<br>
+                    <span class="text-primary">mercado de trabalho</span>
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Crie um currículo profissional em minutos. Layout moderno,
+                    aprovado por recrutadores e pronto para conquistar sua vaga dos sonhos.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'curriculos:criar' %}" class="btn btn-primary btn-lg px-5">
+                        <i class="bi bi-pencil-square me-2"></i>Criar Meu Currículo
+                    </a>
+                    <a href="#como-funciona" class="btn btn-outline-primary btn-lg">
+                        Saiba Mais
+                    </a>
+                </div>
+                <div class="mt-4 d-flex gap-4 text-muted">
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> Rápido e fácil</div>
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> Layout profissional</div>
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> Entrega via WhatsApp</div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-mockup">
+                    <div class="mockup-card shadow-lg">
+                        <div class="mockup-header"></div>
+                        <div class="mockup-body">
+                            <div class="mockup-line long"></div>
+                            <div class="mockup-line medium"></div>
+                            <div class="mockup-line short"></div>
+                            <div class="mockup-section mt-4">
+                                <div class="mockup-line medium"></div>
+                                <div class="mockup-line long"></div>
+                                <div class="mockup-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Como Funciona -->
+<section id="como-funciona" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Como Funciona</h2>
+            <p class="text-muted lead">Simples, rápido e profissional em 4 passos</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="step-card text-center p-4">
+                    <div class="step-number">1</div>
+                    <i class="bi bi-pencil-square step-icon"></i>
+                    <h5 class="fw-bold mt-3">Preencha seus dados</h5>
+                    <p class="text-muted">Formulário simples dividido em etapas com salvamento automático.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="step-card text-center p-4">
+                    <div class="step-number">2</div>
+                    <i class="bi bi-eye step-icon"></i>
+                    <h5 class="fw-bold mt-3">Visualize a prévia</h5>
+                    <p class="text-muted">Veja como seu currículo ficará antes de adquirir.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="step-card text-center p-4">
+                    <div class="step-number">3</div>
+                    <i class="bi bi-credit-card step-icon"></i>
+                    <h5 class="fw-bold mt-3">Realize o pagamento</h5>
+                    <p class="text-muted">Pagamento via PIX pelo WhatsApp de forma segura.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="step-card text-center p-4">
+                    <div class="step-number">4</div>
+                    <i class="bi bi-file-earmark-pdf step-icon"></i>
+                    <h5 class="fw-bold mt-3">Receba o PDF</h5>
+                    <p class="text-muted">Currículo profissional em PDF enviado direto no seu WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vantagens -->
+<section id="vantagens" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Por que escolher o Currículo PRO?</h2>
+            <p class="text-muted lead">Vantagens que fazem a diferença na sua carreira</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-primary-subtle text-primary">
+                        <i class="bi bi-palette"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Design Profissional</h5>
+                    <p class="text-muted">Layout moderno e elegante, aprovado por recrutadores de grandes empresas.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-success-subtle text-success">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Rápido e Prático</h5>
+                    <p class="text-muted">Preencha em menos de 10 minutos. Salvamento automático a cada etapa.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-warning-subtle text-warning">
+                        <i class="bi bi-phone"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Entrega via WhatsApp</h5>
+                    <p class="text-muted">Receba seu PDF diretamente no WhatsApp, pronto para enviar.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-info-subtle text-info">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Compatível com ATS</h5>
+                    <p class="text-muted">Formato legível por sistemas automatizados de triagem de currículos.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-danger-subtle text-danger">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Preço Acessível</h5>
+                    <p class="text-muted">Investimento único com retorno garantido em oportunidades de emprego.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-secondary-subtle text-secondary">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5 class="fw-bold mt-3">Suporte Personalizado</h5>
+                    <p class="text-muted">Atendimento humanizado via WhatsApp para tirar dúvidas e fazer ajustes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Exemplos -->
+<section id="exemplos" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Exemplos de Currículos</h2>
+            <p class="text-muted lead">Modelos profissionais para diversas áreas</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <a href="{% url 'curriculos:criar' %}?tema=azul" class="text-decoration-none text-dark">
+                    <div class="example-card shadow">
+                        <div class="example-preview admin-preview"></div>
+                        <div class="p-3 text-center">
+                            <h6 class="fw-bold">Área Administrativa</h6>
+                            <span class="badge bg-primary">Azul · Profissional</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'curriculos:criar' %}?tema=verde" class="text-decoration-none text-dark">
+                    <div class="example-card shadow">
+                        <div class="example-preview tech-preview"></div>
+                        <div class="p-3 text-center">
+                            <h6 class="fw-bold">Área Técnica</h6>
+                            <span class="badge bg-success">Verde · Moderno</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'curriculos:criar' %}?tema=roxo" class="text-decoration-none text-dark">
+                    <div class="example-card shadow">
+                        <div class="example-preview general-preview"></div>
+                        <div class="p-3 text-center">
+                            <h6 class="fw-bold">Área Geral</h6>
+                            <span class="badge" style="background:#6d28d9">Roxo · Elegante</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Avaliações -->
+<section id="avaliacoes" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">O que nossos clientes dizem</h2>
+            <p class="text-muted lead">Depoimentos reais de quem já conquistou sua vaga</p>
+        </div>
+        <div class="row g-4">
+            {% for avaliacao in avaliacoes %}
+            <div class="col-md-6">
+                <div class="testimonial-card p-4 h-100">
+                    <div class="stars mb-3">
+                        {% for i in "12345" %}
+                        <i class="bi bi-star-fill text-warning"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-muted mb-3">"{{ avaliacao.texto }}"</p>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-circle">{{ avaliacao.nome|first }}</div>
+                        <div class="ms-3">
+                            <h6 class="fw-bold mb-0">{{ avaliacao.nome }}</h6>
+                            <small class="text-muted">{{ avaliacao.cargo }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Perguntas Frequentes</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    {% for faq in faqs %}
+                    <div class="accordion-item border-0 mb-3 shadow-sm rounded">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} rounded" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq{{ forloop.counter }}">
+                                {{ faq.pergunta }}
+                            </button>
+                        </h2>
+                        <div id="faq{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">{{ faq.resposta }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Final -->
+<section class="cta-section py-5">
+    <div class="container py-5 text-center">
+        <h2 class="fw-bold text-white mb-3">Pronto para conquistar sua vaga?</h2>
+        <p class="text-white-50 lead mb-4">Crie seu currículo profissional agora mesmo. É rápido e fácil!</p>
+        <a href="{% url 'curriculos:criar' %}" class="btn btn-light btn-lg px-5">
+            <i class="bi bi-pencil-square me-2"></i>Criar Meu Currículo
+        </a>
+    </div>
+</section>
+{% endblock %}

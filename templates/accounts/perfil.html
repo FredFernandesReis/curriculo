@@ -1,0 +1,62 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Meu perfil{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1">Meu perfil</h2>
+    <p class="text-muted mb-0">Atualize seus dados e compartilhe o link da sua página</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm" style="border-radius:12px">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">Dados públicos</h6>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                        {% for e in field.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                    <p class="small text-muted">Slug da página: <code>{{ vendedor.slug }}</code> (altere no admin se precisar)</p>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm" style="border-radius:12px">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">Link para divulgar</h6>
+                <p class="text-muted small">Envie este link para seus clientes. Quem criar currículo por aqui chama no <strong>seu</strong> WhatsApp.</p>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="linkPublico" value="{{ link_publico }}" readonly>
+                    <button class="btn btn-outline-primary" type="button" id="btnCopiar">
+                        <i class="bi bi-clipboard"></i> Copiar
+                    </button>
+                </div>
+                <a href="{{ link_publico }}" class="btn btn-outline-secondary" target="_blank">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Abrir minha página
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('btnCopiar')?.addEventListener('click', function() {
+    const input = document.getElementById('linkPublico');
+    navigator.clipboard.writeText(input.value).then(() => {
+        this.innerHTML = '<i class="bi bi-check"></i> Copiado!';
+        setTimeout(() => { this.innerHTML = '<i class="bi bi-clipboard"></i> Copiar'; }, 2000);
+    });
+});
+</script>
+{% endblock %}

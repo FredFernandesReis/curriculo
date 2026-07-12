@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Prévia do Currículo{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        {% include 'curriculos/_preview_content.html' with protegido=protegido %}
+    </div>
+</section>
+{% endblock %}

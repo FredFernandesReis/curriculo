@@ -1,0 +1,105 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Solicitações{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Solicitações</h2>
+</div>
+
+<!-- Filtros -->
+<div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label class="form-label small fw-semibold">Buscar</label>
+                <input type="text" name="busca" class="form-control" placeholder="Nome, telefone ou e-mail"
+                       value="{{ busca }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Todos</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search me-1"></i> Filtrar
+                </button>
+            </div>
+            <div class="col-md-2">
+                <a href="{% url 'dashboard:lista' %}" class="btn btn-outline-secondary w-100">Limpar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm" style="border-radius: 12px;">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Cidade</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for curriculo in curriculos %}
+                    <tr>
+                        <td class="fw-semibold">{{ curriculo.cliente.nome_completo }}</td>
+                        <td>{{ curriculo.cliente.telefone }}</td>
+                        <td>{{ curriculo.cliente.email }}</td>
+                        <td>{{ curriculo.cliente.cidade }}</td>
+                        <td>{{ curriculo.criado_em|date:"d/m/Y" }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm status-badge status-{{ curriculo.status }} dropdown-toggle border-0"
+                                        data-bs-toggle="dropdown" data-curriculo-id="{{ curriculo.pk }}">
+                                    {{ curriculo.get_status_display }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for value, label in status_choices %}
+                                    <li>
+                                        <a class="dropdown-item btn-alterar-status" href="#"
+                                           data-status="{{ value }}" data-id="{{ curriculo.pk }}">
+                                            {{ label }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'dashboard:visualizar' curriculo.pk %}" class="btn btn-sm btn-outline-primary" title="Visualizar">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'dashboard:editar' curriculo.pk %}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            {% if pode_excluir %}
+                            <a href="{% url 'dashboard:excluir' curriculo.pk %}" class="btn btn-sm btn-outline-danger" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">Nenhuma solicitação encontrada</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

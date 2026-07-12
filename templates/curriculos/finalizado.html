@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Currículo Criado com Sucesso!{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="mb-3">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+            </div>
+            <h2 class="fw-bold">Seu currículo foi criado com sucesso!</h2>
+            <p class="text-muted lead">Confira a prévia abaixo</p>
+        </div>
+
+        <!-- Prévia Protegida -->
+        {% include 'curriculos/_preview_content.html' with protegido=True %}
+
+        <div class="text-center mt-5 px-2">
+            <p class="lead mb-4">
+                Seu currículo está pronto. Para receber a versão profissional em PDF, clique no botão abaixo.
+            </p>
+            <a href="{% url 'curriculos:adquirir' curriculo.pk %}" class="btn btn-success btn-lg px-5 w-100 w-md-auto" target="_blank" rel="noopener" style="max-width:400px">
+                <i class="bi bi-whatsapp me-2"></i>Adquirir Currículo
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

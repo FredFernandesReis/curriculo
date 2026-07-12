@@ -1,0 +1,301 @@
+/* Currículo com topo colorido + foto arredondada */
+.preview-container {
+    position: relative;
+    max-width: 720px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+}
+
+.preview-watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.preview-watermark span {
+    font-size: 2rem;
+    font-weight: 800;
+    color: rgba(220, 38, 38, 0.22);
+    transform: rotate(-28deg);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 100px,
+        rgba(220, 38, 38, 0.025) 100px,
+        rgba(220, 38, 38, 0.025) 200px
+    );
+    z-index: 5;
+    pointer-events: none;
+}
+
+.preview-content.blurred .sensitive {
+    filter: blur(3px);
+    user-select: none;
+}
+
+.cv-classic {
+    --cv-primary: #1e3a5f;
+    --cv-accent: #1e4e8c;
+    --cv-light: #eff6ff;
+    background: #fff;
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    padding: 0;
+}
+
+.cv-tema-azul .cv-classic {
+    --cv-primary: #1e3a5f;
+    --cv-accent: #1e4e8c;
+    --cv-light: #eff6ff;
+}
+
+.cv-tema-verde .cv-classic {
+    --cv-primary: #14532d;
+    --cv-accent: #15803d;
+    --cv-light: #f0fdf4;
+}
+
+.cv-tema-roxo .cv-classic {
+    --cv-primary: #4c1d95;
+    --cv-accent: #6d28d9;
+    --cv-light: #f5f3ff;
+}
+
+.cv-classic-banner {
+    background: linear-gradient(135deg, var(--cv-primary) 0%, var(--cv-accent) 100%);
+    color: #fff;
+    padding: 1.5rem 1.75rem;
+}
+
+.cv-classic-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.cv-classic-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.cv-classic-photo {
+    flex-shrink: 0;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.cv-classic-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.cv-classic-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.45rem;
+}
+
+.cv-classic-meta p {
+    margin: 0 0 0.12rem;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.9rem;
+}
+
+.cv-classic-body {
+    padding: 1.35rem 1.75rem 1.75rem;
+}
+
+.cv-classic-section {
+    margin-top: 1.05rem;
+}
+
+.cv-classic-section:first-child {
+    margin-top: 0.25rem;
+}
+
+.cv-classic-section h2 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--cv-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--cv-accent);
+}
+
+.cv-classic-entry {
+    margin: 0;
+    font-weight: 600;
+    color: #222;
+}
+
+.cv-classic-sub {
+    margin: 0.15rem 0 0;
+    color: #444;
+}
+
+.cv-classic-text {
+    margin: 0;
+    color: #333;
+    text-align: justify;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.cv-classic-muted {
+    margin: 0;
+    color: #777;
+    font-style: italic;
+}
+
+.cv-classic-job {
+    margin-bottom: 0.85rem;
+}
+
+.cv-classic-job:last-child {
+    margin-bottom: 0;
+}
+
+.cv-classic-job-title {
+    margin: 0 0 0.3rem;
+    font-weight: 700;
+    color: #222;
+    font-size: 0.95rem;
+}
+
+.cv-classic-bullets {
+    margin: 0;
+    padding-left: 1.15rem;
+    color: #333;
+}
+
+.cv-classic-bullets li {
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+}
+
+/* Seletor de tema no formulário */
+.tema-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.tema-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 0.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.tema-option.selected,
+.tema-option:has(input:checked) {
+    border-color: var(--primary, #2563eb);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.tema-swatch {
+    width: 100%;
+    height: 36px;
+    border-radius: 10px;
+}
+
+.tema-azul .tema-swatch {
+    background: linear-gradient(135deg, #1e3a5f, #1e4e8c);
+}
+
+.tema-verde .tema-swatch {
+    background: linear-gradient(135deg, #14532d, #15803d);
+}
+
+.tema-roxo .tema-swatch {
+    background: linear-gradient(135deg, #4c1d95, #6d28d9);
+}
+
+.tema-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #475569;
+    line-height: 1.25;
+}
+
+@media (max-width: 767.98px) {
+    .cv-classic-banner {
+        padding: 1.15rem 1.1rem;
+    }
+
+    .cv-classic-body {
+        padding: 1.1rem 1.1rem 1.35rem;
+    }
+
+    .cv-classic-name {
+        font-size: 1.15rem;
+    }
+
+    .cv-classic-photo {
+        width: 84px;
+        height: 84px;
+    }
+
+    .preview-watermark span {
+        font-size: 1rem;
+    }
+
+    .tema-picker {
+        grid-template-columns: 1fr;
+    }
+
+    .tema-option {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+    }
+
+    .tema-swatch {
+        width: 56px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+
+    .tema-label {
+        font-size: 0.85rem;
+        text-align: left;
+    }
+}

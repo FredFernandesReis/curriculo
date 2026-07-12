@@ -1,0 +1,75 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Editar - {{ cliente.nome_completo }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'dashboard:visualizar' curriculo.pk %}" class="text-muted text-decoration-none small">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+    <h2 class="fw-bold mb-0 mt-1">Editar Currículo</h2>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0">
+                    <h6 class="fw-bold mb-0">Dados Pessoais</h6>
+                </div>
+                <div class="card-body">
+                    {% for field in cliente_form %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0">
+                    <h6 class="fw-bold mb-0">Escolaridade</h6>
+                </div>
+                <div class="card-body">
+                    {% for field in escolaridade_form %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0">
+                    <h6 class="fw-bold mb-0">Sobre mim e extras</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for field in extras_form %}
+                        <div class="col-md-{% if field.name == 'objetivo_profissional' or field.name == 'habilidades' %}12{% else %}6{% endif %} mb-3">
+                            <label class="form-label small fw-semibold">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                            {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-check me-1"></i> Salvar Alterações
+        </button>
+    </div>
+</form>
+{% endblock %}

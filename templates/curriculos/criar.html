@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Criar Currículo - Etapa {{ etapa }}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="form-wizard">
+            <!-- Indicador mobile da etapa atual -->
+            <div class="mobile-step-header d-lg-none mb-3">
+                <span class="mobile-step-badge">Etapa {{ etapa }} de {{ total_etapas }}</span>
+                <h2 class="mobile-step-title">
+                    {% for num, info in etapas_info.items %}
+                        {% if num == etapa %}{{ info.0 }}{% endif %}
+                    {% endfor %}
+                </h2>
+            </div>
+
+            <!-- Barra de Progresso -->
+            <div class="progress-steps mb-4">
+                {% for num, info in etapas_info.items %}
+                <div class="progress-step {% if num == etapa %}active{% elif num < etapa %}completed{% endif %}">
+                    <span class="step-circle">
+                        {% if num < etapa %}<i class="bi bi-check"></i>{% else %}{{ num }}{% endif %}
+                    </span>
+                    <span class="step-label">{{ info.0 }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="progress mb-4" style="height: 6px;">
+                <div class="progress-bar bg-primary" style="width: {{ progresso }}%"></div>
+            </div>
+
+            <div class="form-card">
+                <div id="form-errors" class="alert alert-warning d-none" role="alert"></div>
+
+                <!-- Etapa 1: Dados Pessoais -->
+                {% if etapa == 1 %}
+                <h3 class="fw-bold mb-4"><i class="bi bi-person me-2 text-primary"></i>Dados Pessoais</h3>
+                <form id="form-etapa" data-etapa="1" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12 col-md-8">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Nome completo *</label>
+                                    {{ form.nome_completo }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">E-mail *</label>
+                                    {{ form.email }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Telefone *</label>
+                                    {{ form.telefone }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Estado civil</label>
+                                    {{ form.estado_civil }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Cidade *</label>
+                                    {{ form.cidade }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Bairro</label>
+                                    {{ form.bairro }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Ano de nascimento</label>
+                                    {{ form.ano_nascimento }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Foto 3x4 (opcional)</label>
+                            <div class="foto-upload-box text-center">
+                                {% if cliente.foto %}
+                                <img src="{{ cliente.foto.url }}" alt="Foto" id="fotoPreview" class="foto-preview mb-2">
+                                {% else %}
+                                <img src="" alt="" id="fotoPreview" class="foto-preview mb-2 d-none">
+                                <div id="fotoPlaceholder" class="foto-placeholder mb-2">
+                                    <i class="bi bi-person-bounding-box"></i>
+                                </div>
+                                {% endif %}
+                                {{ form.foto }}
+                                <div class="form-text">Retrato, fundo claro. Aparece no currículo.</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Etapa 2: Escolaridade -->
+                {% elif etapa == 2 %}
+                <h3 class="fw-bold mb-4"><i class="bi bi-mortarboard me-2 text-primary"></i>Escolaridade</h3>
+                <form id="form-etapa" data-etapa="2">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Nível de escolaridade *</label>
+                            {{ form.escolaridade }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Instituição</label>
+                            {{ form.instituicao_escolaridade }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Curso</label>
+                            {{ form.curso_escolaridade }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Ano de conclusão</label>
+                            {{ form.ano_conclusao_escolaridade }}
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Etapa 3: Experiências -->
+                {% elif etapa == 3 %}
+                <h3 class="fw-bold mb-4"><i class="bi bi-briefcase me-2 text-primary"></i>Experiências Profissionais</h3>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="semExperiencia"
+                           {% if curriculo.sem_experiencia %}checked{% endif %}>
+                    <label class="form-check-label" for="semExperiencia">
+                        Não possuo experiência profissional
+                    </label>
+                </div>
+
+                <div id="experienciasContainer" {% if curriculo.sem_experiencia %}style="display:none"{% endif %}>
+                    <div id="listaExperiencias">
+                        {% for exp in experiencias %}
+                        <div class="item-card" data-id="{{ exp.pk }}">
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-remove" onclick="removerExperiencia({{ exp.pk }})">
+                                <i class="bi bi-x"></i>
+                            </button>
+                            <strong>{{ exp.cargo }}</strong> — {{ exp.empresa }}<br>
+                            <small class="text-muted">{{ exp.periodo }}</small>
+                            {% if exp.descricao %}<p class="mb-0 mt-1 small">{{ exp.descricao }}</p>{% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="border rounded p-3 mt-3 bg-light">
+                        <h6 class="fw-semibold mb-3">Adicionar Experiência</h6>
+                        <form id="formExperiencia">
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="empresa" placeholder="Empresa" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="cargo" placeholder="Cargo" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="periodo" placeholder="Período (ex: Jan/2020 - Dez/2023)" required>
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" name="descricao" rows="2" placeholder="Descrição das atividades"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-plus"></i> Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Etapa 4: Cursos -->
+                {% elif etapa == 4 %}
+                <h3 class="fw-bold mb-4"><i class="bi bi-book me-2 text-primary"></i>Cursos e Capacitações</h3>
+                <p class="text-muted small mb-3">Adicione quantos cursos quiser. Quanto mais cursos relevantes, melhor o currículo.</p>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="semCursos"
+                           {% if curriculo.sem_cursos %}checked{% endif %}>
+                    <label class="form-check-label" for="semCursos">
+                        Não possuo cursos
+                    </label>
+                </div>
+
+                <div id="cursosContainer" {% if curriculo.sem_cursos %}style="display:none"{% endif %}>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold small text-muted">Seus cursos (<span id="cursosCount">{{ cursos|length }}</span>)</span>
+                    </div>
+                    <div id="listaCursos">
+                        {% for curso in cursos %}
+                        <div class="item-card" data-id="{{ curso.pk }}">
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-remove" onclick="removerCurso({{ curso.pk }})">
+                                <i class="bi bi-x"></i>
+                            </button>
+                            <strong>{{ curso.nome }}</strong>{% if curso.instituicao %} — {{ curso.instituicao }}{% endif %}<br>
+                            <small class="text-muted">{% if curso.carga_horaria %}{{ curso.carga_horaria }}{% endif %}{% if curso.carga_horaria and curso.ano %} | {% endif %}{% if curso.ano %}{{ curso.ano }}{% endif %}</small>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted small mb-0" id="cursosVazio">Nenhum curso adicionado ainda.</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="border rounded-3 p-3 mt-3 bg-light curso-add-box">
+                        <h6 class="fw-semibold mb-3"><i class="bi bi-plus-circle me-1 text-primary"></i>Adicionar curso</h6>
+                        <form id="formCurso">
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" name="nome" placeholder="Nome do curso *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="instituicao" placeholder="Instituição (opcional)">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="carga_horaria" placeholder="Carga horária">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="number" class="form-control" name="ano" placeholder="Ano">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100 w-md-auto">
+                                        <i class="bi bi-plus-lg me-1"></i> Adicionar este curso
+                                    </button>
+                                    <div class="form-text mt-2">Depois de adicionar, o formulário limpa para você incluir outro.</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Etapa 5: Informações Extras -->
+                {% elif etapa == 5 %}
+                <h3 class="fw-bold mb-4"><i class="bi bi-palette me-2 text-primary"></i>Finalizar e personalizar</h3>
+                <form id="form-etapa" data-etapa="5">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Cor do currículo</label>
+                            <p class="form-text mt-0 mb-2">Escolha o tom do topo e dos títulos (só muda as cores).</p>
+                            <div class="tema-picker">
+                                {% for value, label in temas %}
+                                <label class="tema-option tema-{{ value }} {% if curriculo.tema == value %}selected{% endif %}">
+                                    <input type="radio" name="tema" value="{{ value }}"
+                                           {% if curriculo.tema == value %}checked{% endif %} class="visually-hidden">
+                                    <span class="tema-swatch"></span>
+                                    <span class="tema-label">{{ label }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">CNH</label>
+                            {{ form.cnh }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Veículo próprio</label>
+                            <div class="mt-2">
+                                {% for radio in form.veiculo_proprio %}
+                                <div class="form-check form-check-inline">
+                                    {{ radio.tag }}
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Objetivo profissional</label>
+                            {{ form.objetivo_profissional }}
+                            <div class="form-text">Em poucas linhas: o que você busca na carreira.</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Sobre mim</label>
+                            {{ form.sobre_mim }}
+                            <div class="form-text">Fale sobre você, pontos fortes e diferenciais.</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Habilidades</label>
+                            {{ form.habilidades }}
+                            <div class="form-text">Uma habilidade por linha (ex.: Comunicação, Excel, Atendimento).</div>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+
+                <!-- Navegação -->
+                <div class="d-flex justify-content-between mt-4 pt-3 border-top form-nav-buttons">
+                    {% if etapa > 1 %}
+                    <a href="?etapa={{ etapa|add:'-1' }}" class="btn btn-outline-secondary btn-nav">
+                        <i class="bi bi-arrow-left me-1"></i> Voltar
+                    </a>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+
+                    {% if etapa < 5 %}
+                    <button type="button" id="btnProximo" class="btn btn-primary btn-nav px-4" data-etapa="{{ etapa }}">
+                        Próximo <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                    {% else %}
+                    <a href="{% url 'curriculos:finalizar' %}" class="btn btn-success btn-nav px-4" id="btnFinalizar">
+                        <i class="bi bi-check-circle me-1"></i> Finalizar
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="autosave-indicator" id="autosaveIndicator">
+    <i class="bi bi-check-circle me-1"></i> Salvo automaticamente
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const CSRF_TOKEN = '{{ csrf_token }}';
+const ETAPA_ATUAL = {{ etapa }};
+</script>
+<script src="{% static 'js/form-wizard.js' %}"></script>
+{% endblock %}
